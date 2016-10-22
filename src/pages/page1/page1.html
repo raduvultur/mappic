@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Explore</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-fab top right edge>
+    <button ion-fab (click)="showPics()"><ion-icon name="camera"></ion-icon></button>
+  </ion-fab>
+
+  <div #map id="map"></div> 
+
+<ion-grid>
+  <ion-row>
+
+    <ion-col *ngFor="let pic of instaPics">
+      <ion-avatar item-left>
+                <img src="{{pic.images.thumbnail.url}}" title="{{pic.caption.text}}"/>
+            </ion-avatar>
+    </ion-col>
+
+  </ion-row>
+</ion-grid>
+
+</ion-content>

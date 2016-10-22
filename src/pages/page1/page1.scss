@@ -1,0 +1,30 @@
+page-page1 {
+	.scroll-content {
+        height: 100%
+      }
+ 
+    #map {
+        width: 100%;
+        height: 50%;
+      }
+    #photos {
+        width: 100%;
+        height: 50%;
+      }
+
+  ion-icon {
+    font-size: 50px;
+  }
+
+  ion-row {
+    height: 100%;
+    flex-wrap: wrap;
+  }
+
+  ion-col {
+    flex: 0 0 25%;
+    max-width: 25%;
+    text-align: center;
+    padding: 10px 5px;
+  }
+}
