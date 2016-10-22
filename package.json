@@ -1,7 +1,7 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "mappic",
+  "author": "Radu Vultur",
+  "homepage": "http://raduvultur.com/",
   "private": true,
   "scripts": {
     "build": "ionic-app-scripts build",
