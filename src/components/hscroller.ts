@@ -1,13 +1,19 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 
 @Component({
-  selector: 'hscroller'
-})
-@View({
+  selector: 'hscroller',
   template: '<div class="hscroller" ng-transclude></div>'
 })
+
 class Hscroller {
-  constructor(public name: string, public city: string) {}
+  ngOnInit() {
+    // Properties are resolved and things like
+    // this.mapWindow and this.mapControls
+    // had a chance to resolve from the
+    // two child components <map-window> and <map-controls>
+  }
+  
+  constructor() {}
 }
 
 /*

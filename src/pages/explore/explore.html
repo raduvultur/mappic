@@ -15,6 +15,17 @@
   <div #map id="map"></div>
 
   <ion-grid>
+    <ion-row><ion-col>Flickr</ion-col></ion-row>
+    <ion-row wrap>
+      <ion-col *ngFor="let pic of flickrPics">
+        <ion-avatar item-left>
+          <ion-img src="{{pic.url_q}}"></ion-img>
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-grid>
     <ion-row><ion-col>Instagram</ion-col></ion-row>
     <ion-row>
       <ion-col *ngFor="let pic of instaPics">
@@ -25,16 +36,4 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid>
-    <ion-row><ion-col>Flickr</ion-col></ion-row>
-    <ion-row wrap>
-      <ion-col *ngFor="let pic of flickrPics">
-        <ion-avatar item-left>
-          <ion-img src="{{pic.url_q}}"></ion-img>
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-      
 </ion-content>
