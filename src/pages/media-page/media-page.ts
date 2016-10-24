@@ -17,8 +17,8 @@ import { ShareService } from '../../providers/share-service';
 
 export class MediaPage {
 
-	private instaPics: any;
-	private flickrPics: any;
+  instaPics: any;
+  flickrPics: any;
 	
   constructor(public navCtrl: NavController,
       private instagramService: InstagramService,
