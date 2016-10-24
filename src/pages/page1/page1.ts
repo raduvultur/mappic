@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { InstagramService } from '../../providers/instagram-service';
+import { FlickrService } from '../../providers/flickr-service';
 import { ConnectivityService } from '../../providers/connectivity-service';
 import { Geolocation } from 'ionic-native';
 
@@ -9,18 +10,23 @@ declare var google;
 @Component({
   selector: 'page-page1',
   templateUrl: 'page1.html',
-  providers: [InstagramService]
+  providers: [InstagramService, FlickrService]
 })
 
 export class Page1 {
 
 	@ViewChild('map') mapElement: ElementRef;
 	map: any;
-	public instaPics: any;
+	private instaPics: any;
+	private flickrPics: any;
 	mapInitialised: boolean = false;
-  	apiKey: any = "AIzaSyBPZOuQNePXO9izuGtazWZuRHwkeRMi4bE";
+  apiKey: any = "AIzaSyBPZOuQNePXO9izuGtazWZuRHwkeRMi4bE";
 
-  constructor(public navCtrl: NavController,public instagramService: InstagramService, public connectivityService: ConnectivityService) {
+  constructor(public navCtrl: NavController,
+      private instagramService: InstagramService, 
+      private connectivityService: ConnectivityService, 
+      private flickrService: FlickrService) 
+  {
   	this.loadGoogleMaps();
   }
 
@@ -46,9 +52,9 @@ export class Page1 {
 	      script.id = "googleMaps";
 	 
 	      if(this.apiKey){
-	        script.src = 'http://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
+	        script.src = 'https://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
 	      } else {
-	        script.src = 'http://maps.google.com/maps/api/js?callback=mapInit';       
+	        script.src = 'https://maps.google.com/maps/api/js?callback=mapInit';       
 	      }
 	 
 	 	  if (!document.getElementById('googleMaps')) {			    
@@ -82,7 +88,7 @@ export class Page1 {
   initMap(){
  
     this.mapInitialised = true;
- 	let latLng = new google.maps.LatLng(48.874669, 2.229712);
+ 	  let latLng = new google.maps.LatLng(48.874669, 2.229712);
 
     Geolocation.getCurrentPosition().then((position) => {
       latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -92,19 +98,23 @@ export class Page1 {
 
     let mapOptions = {
         center: latLng,
-        zoom: 15,
+        zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-    var crosshairShape = {coords:[0,0,0,0],type:'rect'};
-    var marker = new google.maps.Marker({
-	  map: this.map,
-	  icon: '/assets/img/cross-hairs.gif',
-	  shape: crosshairShape
-	});
-    marker.bindTo('position', this.map, 'center');
+    var targetCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 1,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: this.map,
+      //center: this.map.center,
+      radius: 5000
+    });
+    targetCircle.bindTo('center', this.map, 'center');
  
   }
 
@@ -148,19 +158,44 @@ export class Page1 {
  
   }
 
-  	showPics(){
-  		// http://blog.ionic.io/handling-cors-issues-in-ionic/
-  		let apiRequest = "http://localhost:8100/instagram/v1/media/search?lat="+this.map.getCenter().lat()+"&lng="+this.map.getCenter().lng()+"&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5";
-  		//let apiRequest = "https://api.instagram.com/v1/media/search?lat="+this.map.getCenter().lat()+"&lng="+this.map.getCenter().lng()+"&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5";
-  		console.log(apiRequest); 
-  		this.instagramService.load(apiRequest)
-		  .then(data => {
-		  		console.log(data.data);
-		  		this.instaPics = data.data;
-		  }, (err) => {
-		  		console.log(err);
-		  });		
-  		//https://instagram.com/oauth/authorize/?client_id=010c1121386c4b9a927c009727e6fb21&scope=public_content&redirect_uri=http://localhost&response_type=token
+  	showPics() {
+  	    let mapLat = this.map.getCenter().lat();
+  	    let mapLon = this.map.getCenter().lng();
+  	    
+  	    // http://blog.ionic.io/handling-cors-issues-in-ionic/
+  	    let apiInstagramRequest = "/media/search?lat=" + mapLat + "&lng=" + mapLon;
+
+  	    this.instagramService.load(apiInstagramRequest)
+  	        .then(data => {
+  	            //console.log(data.data);
+  	            this.instaPics = data.data;
+  	        }, (err) => {
+  	            console.log(err);
+  	        });
+  	    //https://instagram.com/oauth/authorize/?client_id=010c1121386c4b9a927c009727e6fb21&scope=public_content&redirect_uri=http://localhost&response_type=token
+  	    
+  	    let apiFlickrRequest = "flickr.photos.search&lat=" + mapLat + "&lon=" + mapLon;
+
+  	    this.flickrService.load(apiFlickrRequest)
+  	        .then(data => {
+  	            //console.log(data);
+  	            this.flickrPics = data.photos.photo;
+  	        }, (err) => {
+  	            console.log(err);
+  	        });
+  	    
+  	    //this.presentToast(this.instaPics.length, this.flickrPics.length);
   	}
+
+
+    /*presentToast(nrInsta, nrFlickr) {
+      let toast = this.toastCtrl.create({
+        message: 'Search returned '+nrInsta+' results from Instagram and '+nrFlickr+' from flickr.',
+        duration: 2000,
+        position: 'bottom'
+      });
+    
+      toast.present();
+    }*/
 
 }
