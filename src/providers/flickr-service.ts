@@ -31,7 +31,7 @@ export class FlickrService {
 		let flickrUrl = "https://api.flickr.com/services/rest/?method=";
 
     //&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5"
-    flickrUrl += flic + "&per_page=100&&extras=date_upload,date_taken,url_q,url_o&per_page=20&format=json&nojsoncallback=1&radius=" + this.flickrRadius + "&api_key=" + this.flickrApiKey;
+    flickrUrl += flic + "&per_page=100&&extras=date_upload,date_taken,url_q,url_o&format=json&nojsoncallback=1&radius=" + this.flickrRadius + "&api_key=" + this.flickrApiKey;
 
 	  // don't have the data yet
 	  return new Promise(resolve => {
