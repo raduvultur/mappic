@@ -8,12 +8,12 @@ import { Geolocation } from 'ionic-native';
 declare var google;
 
 @Component({
-  selector: 'page-page1',
-  templateUrl: 'page1.html',
+  selector: 'page-explore',
+  templateUrl: 'explore.html',
   providers: [InstagramService, FlickrService]
 })
 
-export class Page1 {
+export class Explore {
 
 	@ViewChild('map') mapElement: ElementRef;
 	map: any;
@@ -27,7 +27,11 @@ export class Page1 {
       private connectivityService: ConnectivityService, 
       private flickrService: FlickrService) 
   {
-  	this.loadGoogleMaps();
+  	//this.loadGoogleMaps();
+  }
+  
+  ionViewDidLoad() {
+    this.loadGoogleMaps();
   }
 
   loadGoogleMaps(){
@@ -51,24 +55,17 @@ export class Page1 {
 	      let script = document.createElement("script");
 	      script.id = "googleMaps";
 	 
-	      if(this.apiKey){
-	        script.src = 'https://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
-	      } else {
-	        script.src = 'https://maps.google.com/maps/api/js?callback=mapInit';       
-	      }
+	      script.src = 'https://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
 	 
-	 	  if (!document.getElementById('googleMaps')) {			    
-		  	console.log("Adding script: "+script.src);
-	      	document.body.appendChild(script); 
-		  } else {
-		  	console.log("Map script exists, skip add.");
-		  }
-
-	 	   
+  	 	  if (!document.getElementById('googleMaps')) {			    
+  		  	console.log("Adding script: "+script.src);
+  	      	document.body.appendChild(script); 
+  		  } else {
+  		  	console.log("Map script exists, skip add.");
+  		  }
 	 
 	    } 
-	}
-	else {
+  	} else {
 	 
 	    if(this.connectivityService.isOnline()){
 	      console.log("showing map");
@@ -79,8 +76,8 @@ export class Page1 {
 	      console.log("disabling map");
 	      this.disableMap();
 	    }
-	 
-	  }
+	    
+    }
  
   }
  
@@ -89,16 +86,16 @@ export class Page1 {
  
     this.mapInitialised = true;
  	  let latLng = new google.maps.LatLng(48.874669, 2.229712);
-
+/*
     Geolocation.getCurrentPosition().then((position) => {
       latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     }, (err) => {
-	  console.log("Error getting position: " + err);
-    });
+	    console.log("Error getting position: " + err);
+    });*/
 
     let mapOptions = {
         center: latLng,
-        zoom: 8,
+        zoom: 10,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
 
