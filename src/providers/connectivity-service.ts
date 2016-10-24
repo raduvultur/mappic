@@ -16,13 +16,14 @@ export class ConnectivityService {
   onDevice: boolean;
 
   constructor(public platform: Platform) {
-    console.log('Hello ConnectivityService Provider');
+    console.log('ConnectivityService provider started');
     this.onDevice = this.platform.is('cordova');
   }
 
   isOnline(): boolean {
-    if(this.onDevice && Network.connection){
-      return Network.connection !== Connection.NONE;
+    if(this.onDevice /*&& Network.connection*/){
+      return true;
+      //return Network.connection !== Connection.NONE;
     } else {
       return navigator.onLine; 
     }
