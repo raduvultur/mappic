@@ -2,11 +2,5 @@
   "name": "mappic",
   "app_id": "1f91a26c",
   "v2": true,
-  "typescript": true,
-  "proxies": [
-    {
-      "path": "/instagram",
-      "proxyUrl": "https://api.instagram.com"
-    }
-  ]  
+  "typescript": true
 }

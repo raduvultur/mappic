@@ -150,8 +150,8 @@ export class Page1 {
 
   	showPics(){
   		// http://blog.ionic.io/handling-cors-issues-in-ionic/
-  		let apiRequest = "http://localhost:8100/instagram/v1/media/search?lat="+this.map.getCenter().lat()+"&lng="+this.map.getCenter().lng()+"&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5";
-  		//let apiRequest = "https://api.instagram.com/v1/media/search?lat="+this.map.getCenter().lat()+"&lng="+this.map.getCenter().lng()+"&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5";
+  		//let apiRequest = "http://localhost:8100/instagram/v1/media/search?lat="+this.map.getCenter().lat()+"&lng="+this.map.getCenter().lng()+"&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5";
+  		let apiRequest = "https://api.instagram.com/v1/media/search?lat="+this.map.getCenter().lat()+"&lng="+this.map.getCenter().lng()+"&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5";
   		console.log(apiRequest); 
   		this.instagramService.load(apiRequest)
 		  .then(data => {
