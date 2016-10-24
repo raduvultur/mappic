@@ -1,39 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Explore</ion-title>
+    <ion-title>mappic - Explore</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-fab top right edge>
-    <button ion-fab (click)="showPics()"><ion-icon name="camera"></ion-icon></button>
-  </ion-fab>
 
   <div #map id="map"></div>
-
-  <ion-grid>
-    <ion-row><ion-col>Flickr</ion-col></ion-row>
-    <ion-row wrap>
-      <ion-col *ngFor="let pic of flickrPics">
-        <ion-avatar item-left>
-          <ion-img src="{{pic.url_q}}"></ion-img>
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  
-  <ion-grid>
-    <ion-row><ion-col>Instagram</ion-col></ion-row>
-    <ion-row>
-      <ion-col *ngFor="let pic of instaPics">
-        <ion-avatar item-left>
-          <ion-img src="{{pic.images.thumbnail.url}}"></ion-img>
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
 </ion-content>

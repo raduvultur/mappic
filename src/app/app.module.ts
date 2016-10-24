@@ -1,17 +1,25 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
+
 import { Explore } from '../pages/explore/explore';
 import { Page2 } from '../pages/page2/page2';
+import { MainPage } from '../pages/main-page/main-page';
+import { MediaPage } from '../pages/media-page/media-page';
+
 import { ConnectivityService } from '../providers/connectivity-service';
 import { InstagramService } from '../providers/instagram-service';
 import { FlickrService } from '../providers/flickr-service';
+
+import { ShareService } from '../providers/share-service';
 
 @NgModule({
   declarations: [
     MyApp,
     Explore,
-    Page2
+    Page2,
+    MainPage,
+    MediaPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -20,8 +28,10 @@ import { FlickrService } from '../providers/flickr-service';
   entryComponents: [
     MyApp,
     Explore,
-    Page2
+    Page2,
+    MainPage,
+    MediaPage
   ],
-  providers: [ConnectivityService, InstagramService, FlickrService]
+  providers: [ConnectivityService, InstagramService, FlickrService, ShareService]
 })
 export class AppModule {}

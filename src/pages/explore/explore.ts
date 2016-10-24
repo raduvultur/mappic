@@ -1,31 +1,28 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { InstagramService } from '../../providers/instagram-service';
-import { FlickrService } from '../../providers/flickr-service';
 import { ConnectivityService } from '../../providers/connectivity-service';
+import { ShareService } from '../../providers/share-service';
 import { Geolocation } from 'ionic-native';
 
 declare var google;
 
 @Component({
   selector: 'page-explore',
-  templateUrl: 'explore.html',
-  providers: [InstagramService, FlickrService]
+  templateUrl: 'explore.html'
 })
 
 export class Explore {
 
 	@ViewChild('map') mapElement: ElementRef;
-	map: any;
-	private instaPics: any;
-	private flickrPics: any;
+
 	mapInitialised: boolean = false;
   apiKey: any = "AIzaSyBPZOuQNePXO9izuGtazWZuRHwkeRMi4bE";
-
+	mapLat: any = 48.874669;
+	mapLon: any = 2.229712;
+	
   constructor(public navCtrl: NavController,
-      private instagramService: InstagramService, 
-      private connectivityService: ConnectivityService, 
-      private flickrService: FlickrService) 
+      private shareService: ShareService,
+      private connectivityService: ConnectivityService) 
   {
   	//this.loadGoogleMaps();
   }
@@ -85,10 +82,12 @@ export class Explore {
   initMap(){
  
     this.mapInitialised = true;
- 	  let latLng = new google.maps.LatLng(48.874669, 2.229712);
+ 	  let latLng = new google.maps.LatLng(this.mapLat, this.mapLon);
 /*
     Geolocation.getCurrentPosition().then((position) => {
-      latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      this.mapLat = position.coords.latitude;
+      this.mapLon = position.coords.longitude;
+      latLng = new google.maps.LatLng(mapLat, mapLon);
     }, (err) => {
 	    console.log("Error getting position: " + err);
     });*/
@@ -99,7 +98,7 @@ export class Explore {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
 
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.shareService.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
     var targetCircle = new google.maps.Circle({
       strokeColor: '#FF0000',
@@ -107,11 +106,10 @@ export class Explore {
       strokeWeight: 1,
       fillColor: '#FF0000',
       fillOpacity: 0.35,
-      map: this.map,
-      //center: this.map.center,
+      map: this.shareService.map,
       radius: 5000
     });
-    targetCircle.bindTo('center', this.map, 'center');
+    targetCircle.bindTo('center', this.shareService.map, 'center');
  
   }
 
@@ -154,45 +152,5 @@ export class Explore {
     document.addEventListener('offline', onOffline, false);
  
   }
-
-  	showPics() {
-  	    let mapLat = this.map.getCenter().lat();
-  	    let mapLon = this.map.getCenter().lng();
-  	    
-  	    // http://blog.ionic.io/handling-cors-issues-in-ionic/
-  	    let apiInstagramRequest = "/media/search?lat=" + mapLat + "&lng=" + mapLon;
-
-  	    this.instagramService.load(apiInstagramRequest)
-  	        .then(data => {
-  	            //console.log(data.data);
-  	            this.instaPics = data.data;
-  	        }, (err) => {
-  	            console.log(err);
-  	        });
-  	    //https://instagram.com/oauth/authorize/?client_id=010c1121386c4b9a927c009727e6fb21&scope=public_content&redirect_uri=http://localhost&response_type=token
-  	    
-  	    let apiFlickrRequest = "flickr.photos.search&lat=" + mapLat + "&lon=" + mapLon;
-
-  	    this.flickrService.load(apiFlickrRequest)
-  	        .then(data => {
-  	            //console.log(data);
-  	            this.flickrPics = data.photos.photo;
-  	        }, (err) => {
-  	            console.log(err);
-  	        });
-  	    
-  	    //this.presentToast(this.instaPics.length, this.flickrPics.length);
-  	}
-
-
-    /*presentToast(nrInsta, nrFlickr) {
-      let toast = this.toastCtrl.create({
-        message: 'Search returned '+nrInsta+' results from Instagram and '+nrFlickr+' from flickr.',
-        duration: 2000,
-        position: 'bottom'
-      });
-    
-      toast.present();
-    }*/
 
 }

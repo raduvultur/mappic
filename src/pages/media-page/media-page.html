@@ -1,0 +1,38 @@
+<!--
+  Generated template for the MediaPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>mappic - Media</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  Flickr
+  <ion-grid>
+    <ion-row wrap>
+      <ion-col *ngFor="let pic of flickrPics">
+        <ion-avatar item-left>
+          <ion-img src="{{pic.url_q}}"></ion-img>
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  Instagram
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let pic of instaPics">
+        <ion-avatar item-left>
+          <ion-img src="{{pic.images.thumbnail.url}}"></ion-img>
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
