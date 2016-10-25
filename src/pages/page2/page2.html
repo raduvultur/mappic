@@ -1,14 +1,24 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>Settings</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-
-  </ion-list>
+  <ion-item>
+    <ion-label>flickr</ion-label>
+    <ion-checkbox color="dark" checked="true"></ion-checkbox>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label>Instagram</ion-label>
+    <ion-checkbox disabled="true"></ion-checkbox>
+  </ion-item>
+  
+  <ion-item>
+    <ion-range>
+      <ion-icon range-left small name="remove"></ion-icon>
+      <ion-icon range-right name="add"></ion-icon>
+    </ion-range>
+  </ion-item>  
 </ion-content>

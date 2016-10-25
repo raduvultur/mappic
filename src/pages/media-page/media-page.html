@@ -19,7 +19,12 @@
 
 
 <ion-content>
-  Flickr
+  
+  <ion-list>
+    <ion-list-header>
+      Flickr
+    </ion-list-header>
+  </ion-list>
   <ion-grid>
     <ion-row wrap>
       <ion-col *ngFor="let pic of flickrPics">
@@ -30,14 +35,20 @@
     </ion-row>
   </ion-grid>
   
-  Instagram
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let pic of instaPics">
-        <ion-avatar item-left>
-          <ion-img src="{{pic.images.thumbnail.url}}"></ion-img>
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div *ngIf="(instaPics && instaPics.length>0)">
+    <ion-list>
+      <ion-list-header>
+        Instagram
+      </ion-list-header>
+    </ion-list>  
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let pic of instaPics">
+          <ion-avatar item-left>
+            <ion-img src="{{pic.images.thumbnail.url}}"></ion-img>
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
