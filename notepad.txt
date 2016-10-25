@@ -4,3 +4,7 @@ c58aa17eacce8fa53423cf76022724fb
 Secret:
 fad971c7ee665300
 
+https://market.ionic.io/plugins/ionic-2-scrollable-tabs
+
+Realtime Messaging is a cloud based message broker.
+https://framework.realtime.co/

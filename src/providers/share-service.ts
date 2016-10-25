@@ -12,6 +12,7 @@ import 'rxjs/add/operator/map';
 export class ShareService {
 
 	map: any;
+	searchBox: any;
 	
   constructor(public http: Http) {
     console.log('Hello ShareService Provider');

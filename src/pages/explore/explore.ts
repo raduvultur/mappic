@@ -51,7 +51,7 @@ export class Explore {
 	      let script = document.createElement("script");
 	      script.id = "googleMaps";
 	 
-	      script.src = 'https://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
+	      script.src = 'https://maps.google.com/maps/api/js?libraries=places&key=' + this.apiKey + '&callback=mapInit';
 	 
   	 	  if (!document.getElementById('googleMaps')) {			    
   		  	console.log("Adding script: "+script.src);
@@ -110,6 +110,19 @@ export class Explore {
     });
     targetCircle.bindTo('center', this.shareService.map, 'center');
  
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+
+    this.shareService.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', this.shareService.map);
+    
+    var myMap = this.shareService.map;
+    autocomplete.addListener('place_changed', function() {
+      console.log('places_changed: '+this.getPlace().geometry.location);
+      myMap.setCenter(this.getPlace().geometry.location);
+    });
+    
   }
 
 
