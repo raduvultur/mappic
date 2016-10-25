@@ -26,9 +26,9 @@ export class InstagramService {
 	    return Promise.resolve(this.data);
 	  }
 
-		let instaUrl = "https://mappic-raduvultur.c9users.io/instagram/v1";
+		//let instaUrl = "https://mappic-raduvultur.c9users.io/instagram/v1";
 		//let instaUrl = "http://localhost:8100/instagram/v1";
-		//let instaUrl = "https://api.instagram.com/v1";
+		let instaUrl = "https://api.instagram.com/v1";
 
     //&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5"
     instaUrl += insta + "&distance=" + this.instaRadius + "&access_token=" + this.instaAccessToken;

@@ -8,3 +8,6 @@ https://market.ionic.io/plugins/ionic-2-scrollable-tabs
 
 Realtime Messaging is a cloud based message broker.
 https://framework.realtime.co/
+
+for twitter:
+http://en.gg/using-ngcordova-and-cordovaoauth-to-query-twitters-search-api/
