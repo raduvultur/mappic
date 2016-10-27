@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Search providers
+    </ion-list-header>  
+    <ion-item>
+      <ion-label>flickr</ion-label>
+      <ion-checkbox checked="true"></ion-checkbox>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>Instagram</ion-label>
+      <ion-checkbox checked="true"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  
+  <ion-list>
+    <ion-list-header>
+      Search range
+      <ion-badge item-right>{{shareService.searchRange}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="0" max="5" step="1" [(ngModel)]="shareService.searchRange">
+      <ion-icon range-left small name="globe"></ion-icon>
+      <ion-icon range-right name="globe"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>  
+  
+</ion-content>

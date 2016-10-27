@@ -13,6 +13,7 @@ export class ShareService {
 
 	map: any;
 	searchBox: any;
+	searchRange: any = 5;
 	
   constructor(public http: Http) {
     console.log('Hello ShareService Provider');

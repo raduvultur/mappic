@@ -3,9 +3,10 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { Explore } from '../pages/explore/explore';
-import { Page2 } from '../pages/page2/page2';
+import { Settings } from '../pages/settings/settings';
 import { MainPage } from '../pages/main-page/main-page';
 import { MediaPage } from '../pages/media-page/media-page';
+import { AddToCollectionPage } from '../pages/media-page/add-to-collection-page/add-to-collection-page';
 import { Collections } from '../pages/collections/collections';
 
 import { ConnectivityService } from '../providers/connectivity-service';
@@ -13,14 +14,16 @@ import { InstagramService } from '../providers/instagram-service';
 import { FlickrService } from '../providers/flickr-service';
 
 import { ShareService } from '../providers/share-service';
+import { Database } from '../providers/database';
 
 @NgModule({
   declarations: [
     MyApp,
     Explore,
-    Page2,
+    Settings,
     MainPage,
     MediaPage,
+    AddToCollectionPage,
     Collections
   ],
   imports: [
@@ -30,11 +33,12 @@ import { ShareService } from '../providers/share-service';
   entryComponents: [
     MyApp,
     Explore,
-    Page2,
+    Settings,
     MainPage,
     MediaPage,
+    AddToCollectionPage,
     Collections
   ],
-  providers: [ConnectivityService, InstagramService, FlickrService, ShareService]
+  providers: [ConnectivityService, InstagramService, FlickrService, ShareService, Database]
 })
 export class AppModule {}

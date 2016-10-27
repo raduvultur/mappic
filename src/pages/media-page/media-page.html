@@ -9,10 +9,17 @@
   <ion-navbar>
     <ion-title>mappic - Media</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
-        <ion-icon name="checkmark-circle"></ion-icon>
+      <button ion-button icon-only [hidden]="!(howManySelected>0)">
+        <ion-icon name="share-alt"></ion-icon>
+      </button>      
+      <button ion-button icon-only [hidden]="!(howManySelected>0)" (click)="presentModal()">
+        <ion-icon name="heart"></ion-icon>
       </button>
-    </ion-buttons>    
+      <!--
+      <button ion-button icon-only (click)="toggleSelection()" [hidden]="selection">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </button>-->
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -27,9 +34,10 @@
   </ion-list>
   <ion-grid>
     <ion-row wrap>
-      <ion-col *ngFor="let pic of flickrPics">
-        <ion-avatar item-left>
-          <ion-img src="{{pic.url_q}}"></ion-img>
+      <ion-col *ngFor="let pic of flickrMediaItems; let i = index">
+        <ion-avatar item-left (press)="toggleSelection()">
+          <ion-img src="{{pic.url_small}}"></ion-img>
+          <ion-checkbox class="selectBox" [(ngModel)]="pic.selected" [hidden]="!selection" (ionChange)="clickCheck(pic.selected)"></ion-checkbox>
         </ion-avatar>
       </ion-col>
     </ion-row>
