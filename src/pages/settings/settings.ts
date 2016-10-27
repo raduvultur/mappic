@@ -8,7 +8,7 @@ import { ShareService } from '../../providers/share-service';
 })
 export class Settings {
 
-  constructor(public navCtrl: NavController, private shareService: ShareService) {
+  constructor(public navCtrl: NavController, public shareService: ShareService) {
   }
 
 }

@@ -15,6 +15,9 @@
       <button ion-button icon-only [hidden]="!(howManySelected>0)" (click)="presentModal()">
         <ion-icon name="heart"></ion-icon>
       </button>
+      <button ion-button icon-only [hidden]="!(howManySelected>0)">
+        <ion-icon name="close"></ion-icon>
+      </button>      
       <!--
       <button ion-button icon-only (click)="toggleSelection()" [hidden]="selection">
         <ion-icon name="checkmark-circle"></ion-icon>
