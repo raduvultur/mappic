@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavParams, ViewController, AlertController  } from 'ionic-angular';
+import { Database } from '../../../providers/database';
 /*
   Generated class for the AddToCollectionPage page.
 
@@ -13,22 +14,31 @@ import { NavParams, ViewController, AlertController  } from 'ionic-angular';
 
 export class AddToCollectionPage {
 
-  collections : any;
+  public collections = [];
 
-  constructor(public params: NavParams, public viewCtrl: ViewController,public alertCtrl: AlertController) {
+  constructor(public params: NavParams, 
+  public viewCtrl: ViewController,
+  private database: Database,
+  private zone: NgZone,
+  public alertCtrl: AlertController) {
     console.log(this.params.get("selectedItems"));
-    
-    this.collections = [
-        'Los Angeles',
-        'Milan',
-        'Paris',
-        'Berlin'
-    ];    
   }
 
   ionViewDidLoad() {
     console.log('Hello AddToCollectionPage Page');
   }
+  
+  ionViewWillEnter() {
+    
+    this.database.getCollections()
+      .then(data => {
+          this.zone.run(() => {
+              this.collections = data;
+          });
+      })
+      .catch(console.error.bind(console));
+    
+  }  
 
   dismiss() {
     this.viewCtrl.dismiss();
@@ -55,11 +65,17 @@ export class AddToCollectionPage {
           text: 'Save',
           handler: data => {
             console.log('Saved clicked');
+            this.database.add(data);
           }
         }
       ]
     });
     prompt.present();
   }  
+  
+  collectionSelected(collection){
+    console.log(collection);
+    this.dismiss();
+  }
   
 }

@@ -27,8 +27,8 @@
       <ion-icon name="add"></ion-icon>
       Create a new collection
     </button>
-    <ion-item *ngFor="let collection of collections" (click)="collectionSelected(collection)">
-      {{collection}}
-    </ion-item>    
+    <button ion-item *ngFor="let collection of collections" (click)="collectionSelected(collection)">
+      {{collection.title}}
+    </button>    
   </ion-list>
 </ion-content>

@@ -1,80 +1,86 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { SQLite } from 'ionic-native';
-import 'rxjs/add/operator/map';
+import {Injectable} from '@angular/core';
+import PouchDB from "pouchdb";
 
-/*
-  Generated class for the Database provider.
+//let PouchDB = require('pouchdb');
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
-
-export class Collection {
-  name: string;
-  id: number;
-  constructor(name: string, id: number) {
-    this.name = name;
-    this.id = id;
-  }
-}
 
 @Injectable()
-export class Database {
+export class Database {  
+    private _db;
+    private _collections;
 
-  private storage: SQLite;
-  private isOpen: boolean;
+    initDB() {
+        console.log('init DB')
+        this._db = new PouchDB('collections', { adapter: 'websql' });
+    }
     
-  constructor(public http: Http) {
-    console.log('Hello Database Provider');
-    if(!this.isOpen) {
-        this.storage = new SQLite();
-        this.storage.openDatabase({name: "data.db", location: "default"}).then(() => {
-            this.storage.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT KEY, value TEXT)", []);
-            this.storage.executeSql("CREATE TABLE IF NOT EXISTS collections (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)", []);
-            this.storage.executeSql("CREATE TABLE IF NOT EXISTS favorites (id INTEGER PRIMARY KEY AUTOINCREMENT, collection_id INTEGER, url TEXT, title TEXT)", []);
-            
-            this.isOpen = true;
-        });
-    }    
-  }
-  
-  public getCollections() {
-    return new Promise((resolve, reject) => {
-        this.storage.executeSql("SELECT * FROM collections", []).then((data) => {
-            let collections = [];
-            if(data.rows.length > 0) {
-                for(let i = 0; i < data.rows.length; i++) {
-                    collections.push({
-                        id: data.rows.item(i).id,
-                        name: data.rows.item(i).name
+    add(collection) {  
+        return this._db.post(collection);
+    } 
+    
+    update(collection) {  
+        return this._db.put(collection);
+    }
+    
+    delete(collection) {  
+        return this._db.remove(collection);
+    }
+    
+    getCollections() {  
+    
+        if (!this._collections) {
+            return this._db.allDocs({ include_docs: true})
+                .then(docs => {
+    
+                    // Each row has a .doc object and we just want to send an 
+                    // array of birthday objects back to the calling controller,
+                    // so let's map the array to contain just the .doc objects.
+    
+                    this._collections = docs.rows.map(row => {
+                        // Dates are not automatically converted from a string.
+                        row.doc.Date = new Date(row.doc.Date);
+                        return row.doc;
                     });
-                }
+    
+                    // Listen for changes on the database.
+                    this._db.changes({ live: true, since: 'now', include_docs: true})
+                        .on('change', this.onDatabaseChange);
+    
+                    return this._collections;
+                });
+        } else {
+            // Return cached data as a promise
+            return Promise.resolve(this._collections);
+        }
+    }
+
+    private onDatabaseChange = (change) => {  
+        var index = this.findIndex(this._collections, change.id);
+        var collection = this._collections[index];
+    
+        if (change.deleted) {
+            if (collection) {
+                this._collections.splice(index, 1); // delete
             }
-            resolve(collections);
-        }, (error) => {
-            reject(error);
-        });
-    });
-  }
-  
-  public createCollection(name: string) {
-    return new Promise((resolve, reject) => {
-        this.storage.executeSql("INSERT INTO collections (name) VALUES (?)", [name]).then((data) => {
-            resolve(data);
-        }, (error) => {
-            reject(error);
-        });
-    });
-  } 
-  
-  public removeCollection(id: number) {
-    new Promise((resolve, reject) => {
-        this.storage.executeSql("DELETE FROM collections WHERE id=?", [id]).then(() => {},
-        (error) => {
-            reject(error);
-        });
-    });
-  }  
+        } else {
+            change.doc.Date = new Date(change.doc.Date);
+            if (collection && collection._id === change.id) {
+                this._collections[index] = change.doc; // update
+            } else {
+                this._collections.splice(index, 0, change.doc) // insert
+            }
+        }
+    }
+    
+    // Binary search, the array is by default sorted by _id.
+    private findIndex(array, id) {  
+        var low = 0, high = array.length, mid;
+        while (low < high) {
+            mid = (low + high) >>> 1;
+            array[mid]._id < id ? low = mid + 1 : high = mid
+        }
+        return low;
+    }
+
 
 }

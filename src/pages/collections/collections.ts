@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { NavController, Platform, ModalController } from 'ionic-angular';
+
+import { Database } from '../../providers/database';
+import { CollectionDetails } from './collection-details/collection-details';
 
 /*
   Generated class for the Collections page.
@@ -13,10 +16,38 @@ import { NavController } from 'ionic-angular';
 })
 export class Collections {
 
-  constructor(public navCtrl: NavController) {}
+  public collections = [];
 
-  ionViewDidLoad() {
+  constructor(public navCtrl: NavController, 
+      private platform: Platform,
+      private zone: NgZone,
+      public modalCtrl: ModalController,
+      private database: Database) {}
+
+  ionViewWillEnter() {
     console.log('Hello Collections Page');
+    
+    this.database.getCollections()
+      .then(data => {
+          this.zone.run(() => {
+              this.collections = data;
+          });
+      })
+      .catch(console.error.bind(console));
+    
   }
+
+    ionViewDidLoad() {
+        //this.platform.ready().then(() => {
+            this.database.initDB();
+        //});
+    }
+    
+    showDetail(collection) {
+      let modal = this.modalCtrl.create(CollectionDetails, {"collection": collection});
+  		modal.onDidDismiss(() => {
+      });    
+      modal.present();
+    }
 
 }

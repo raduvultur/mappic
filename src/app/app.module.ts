@@ -8,6 +8,7 @@ import { MainPage } from '../pages/main-page/main-page';
 import { MediaPage } from '../pages/media-page/media-page';
 import { AddToCollectionPage } from '../pages/media-page/add-to-collection-page/add-to-collection-page';
 import { Collections } from '../pages/collections/collections';
+import { CollectionDetails } from '../pages/collections/collection-details/collection-details';
 
 import { ConnectivityService } from '../providers/connectivity-service';
 import { InstagramService } from '../providers/instagram-service';
@@ -24,7 +25,8 @@ import { Database } from '../providers/database';
     MainPage,
     MediaPage,
     AddToCollectionPage,
-    Collections
+    Collections,
+    CollectionDetails
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -37,7 +39,8 @@ import { Database } from '../providers/database';
     MainPage,
     MediaPage,
     AddToCollectionPage,
-    Collections
+    Collections,
+    CollectionDetails
   ],
   providers: [ConnectivityService, InstagramService, FlickrService, ShareService, Database]
 })
