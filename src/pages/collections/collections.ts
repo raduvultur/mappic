@@ -50,4 +50,10 @@ export class Collections {
       modal.present();
     }
 
+    removeCollection(collection){
+      this.database.delete(collection);
+      var index = this.collections.indexOf(collection);
+      this.collections.splice(index, 1);
+    }
+
 }

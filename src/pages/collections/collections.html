@@ -45,7 +45,7 @@
   </ion-card>
 -->
 
-  <ion-card *ngFor="let collection of collections" (click)="showDetail(collection)">
+  <ion-card *ngFor="let collection of collections" (click)="showDetail(collection)" (swipe)="removeCollection(collection)">
     <img src="img/card-amsterdam.png"/>
     <div class="card-title">{{ collection.title }}</div>
     <div class="card-subtitle">0 images</div>

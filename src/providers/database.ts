@@ -10,8 +10,9 @@ export class Database {
     private _collections;
 
     initDB() {
-        console.log('init DB')
+        console.log('init DB');
         this._db = new PouchDB('collections', { adapter: 'websql' });
+        window["PouchDB"] = PouchDB;
     }
     
     add(collection) {  
@@ -37,8 +38,6 @@ export class Database {
                     // so let's map the array to contain just the .doc objects.
     
                     this._collections = docs.rows.map(row => {
-                        // Dates are not automatically converted from a string.
-                        row.doc.Date = new Date(row.doc.Date);
                         return row.doc;
                     });
     
@@ -57,13 +56,13 @@ export class Database {
     private onDatabaseChange = (change) => {  
         var index = this.findIndex(this._collections, change.id);
         var collection = this._collections[index];
-    
+        console.log('change detected');
         if (change.deleted) {
+            console.log('delete detected');
             if (collection) {
                 this._collections.splice(index, 1); // delete
             }
         } else {
-            change.doc.Date = new Date(change.doc.Date);
             if (collection && collection._id === change.id) {
                 this._collections[index] = change.doc; // update
             } else {
