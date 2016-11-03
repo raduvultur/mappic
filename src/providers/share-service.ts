@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Storage } from '@ionic/storage';
 
 /*
   Generated class for the YoutubeService provider.
@@ -15,8 +16,23 @@ export class ShareService {
 	searchBox: any;
 	searchRange: any = 5;
 	
-  constructor(public http: Http) {
+  constructor(public http: Http, public storage:Storage) {
     console.log('Hello ShareService Provider');
+    this.getSettings();    
   }
 
+  getSettings(){
+    console.log('getSettings called');
+    
+    this.storage.get('searchRange').then((data) => {
+    if (data != null) this.searchRange = JSON.parse(data);
+    	else this.searchRange = 5;    
+    });
+  }
+  
+  saveSettings(){
+    let val = JSON.stringify(this.searchRange);
+    this.storage.set("searchRange", val);
+  }
+  
 }

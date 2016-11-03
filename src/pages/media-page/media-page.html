@@ -29,37 +29,37 @@
 
 
 <ion-content>
+      <ion-list>
+        <ion-list-header>
+          Flickr
+        </ion-list-header>
+      </ion-list>
+      <ion-grid>
+        <ion-row wrap>
+          <ion-col *ngFor="let pic of flickrMediaItems; let i = index">
+            <ion-avatar item-left (press)="toggleSelection()">
+              <ion-img src="{{pic.url_small}}"></ion-img>
+              <ion-checkbox class="selectBox" [(ngModel)]="pic.selected" [hidden]="!selection" (ionChange)="clickCheck(pic.selected)"></ion-checkbox>
+            </ion-avatar>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
   
-  <ion-list>
-    <ion-list-header>
-      Flickr
-    </ion-list-header>
-  </ion-list>
-  <ion-grid>
-    <ion-row wrap>
-      <ion-col *ngFor="let pic of flickrMediaItems; let i = index">
-        <ion-avatar item-left (press)="toggleSelection()">
-          <ion-img src="{{pic.url_small}}"></ion-img>
-          <ion-checkbox class="selectBox" [(ngModel)]="pic.selected" [hidden]="!selection" (ionChange)="clickCheck(pic.selected)"></ion-checkbox>
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      <div *ngIf="(instaPics && instaPics.length>0)">
+        <ion-list>
+          <ion-list-header>
+            Instagram
+          </ion-list-header>
+        </ion-list>  
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let pic of instaPics">
+              <ion-avatar item-left>
+                <ion-img src="{{pic.images.thumbnail.url}}"></ion-img>
+              </ion-avatar>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
   
-  <div *ngIf="(instaPics && instaPics.length>0)">
-    <ion-list>
-      <ion-list-header>
-        Instagram
-      </ion-list-header>
-    </ion-list>  
-    <ion-grid>
-      <ion-row>
-        <ion-col *ngFor="let pic of instaPics">
-          <ion-avatar item-left>
-            <ion-img src="{{pic.images.thumbnail.url}}"></ion-img>
-          </ion-avatar>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
 </ion-content>

@@ -29,4 +29,9 @@ export class CollectionDetails {
     this.viewCtrl.dismiss();
   }
 
+  delete() {
+    this.database.delete(this.collection);
+    this.viewCtrl.dismiss();
+  }
+
 }

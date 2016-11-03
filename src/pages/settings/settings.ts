@@ -10,5 +10,13 @@ export class Settings {
 
   constructor(public navCtrl: NavController, public shareService: ShareService) {
   }
-
+  
+  ionViewWillEnter() {
+    this.shareService.getSettings();
+  }
+  
+  ionViewWillLeave(){
+    this.shareService.saveSettings();
+  }
+  
 }

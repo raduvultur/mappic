@@ -7,12 +7,14 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ collection.title }}</ion-title>
-    <ion-buttons start>
-      <button ion-button icon-only (click)="dismiss()">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-toolbar>
+      <ion-title>{{ collection.title }}</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="dismiss()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>    
   </ion-navbar>
 
 </ion-header>
@@ -21,3 +23,18 @@
 <ion-content padding>
   Collection Details
 </ion-content>
+
+<ion-footer no-shadow>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button icon-only>
+        <ion-icon name="share"></ion-icon>
+      </button>       
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
