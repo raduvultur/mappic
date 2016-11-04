@@ -92,7 +92,7 @@ export class MediaPage {
     
     // http://blog.ionic.io/handling-cors-issues-in-ionic/
     let apiInstagramRequest = "/media/search?lat=" + this.lat + "&lng=" + this.lon;
-
+    this.instagramService.instaRadius = this.shareService.searchRange;
     this.instagramService.load(apiInstagramRequest)
         .then(data => {
             this.instaPics = data.data;
@@ -102,7 +102,7 @@ export class MediaPage {
     //https://instagram.com/oauth/authorize/?client_id=010c1121386c4b9a927c009727e6fb21&scope=public_content&redirect_uri=http://localhost&response_type=token
     
     let apiFlickrRequest = "flickr.photos.search&lat=" + this.lat + "&lon=" + this.lon;
-
+    this.flickrService.flickrRadius = this.shareService.searchRange;
     this.flickrService.load(apiFlickrRequest)
         .then(data => {
 

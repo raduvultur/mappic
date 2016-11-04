@@ -13,12 +13,12 @@ import { Storage } from '@ionic/storage';
 export class ShareService {
 
 	map: any;
-	searchBox: any;
 	searchRange: any = 5;
 	
   constructor(public http: Http, public storage:Storage) {
     console.log('Hello ShareService Provider');
-    this.getSettings();    
+    this.getSettings(); 
+    console.log('searchRange: '+this.searchRange);
   }
 
   getSettings(){

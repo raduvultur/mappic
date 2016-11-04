@@ -18,12 +18,18 @@ export class Explore {
   apiKey: any = "AIzaSyBPZOuQNePXO9izuGtazWZuRHwkeRMi4bE";
 	mapLat: any = 48.874669;
 	mapLon: any = 2.229712;
+	targetCircle : any;
 	
   constructor(public navCtrl: NavController,
       private shareService: ShareService,
       private connectivityService: ConnectivityService) 
   {
   	//this.loadGoogleMaps();
+  }
+  
+  ionViewWillEnter() {
+    console.log('radius changing '+(this.shareService.searchRange * 1000));
+    this.targetCircle.setRadius(this.shareService.searchRange * 1000);
   }
   
   ionViewDidLoad() {
@@ -99,16 +105,16 @@ export class Explore {
 
     this.shareService.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-    var targetCircle = new google.maps.Circle({
+    this.targetCircle = new google.maps.Circle({
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
       strokeWeight: 1,
       fillColor: '#FF0000',
       fillOpacity: 0.35,
       map: this.shareService.map,
-      radius: 5000
+      radius: this.shareService.searchRange * 1000
     });
-    targetCircle.bindTo('center', this.shareService.map, 'center');
+    this.targetCircle.bindTo('center', this.shareService.map, 'center');
  
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');

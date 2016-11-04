@@ -17,7 +17,7 @@ export class FlickrService {
 
   public data: any;
 	private flickrApiKey: any = 'c58aa17eacce8fa53423cf76022724fb';
-  private flickrRadius: any = 5;
+  public flickrRadius: any = 5;
   
   load(flic) {
 	  

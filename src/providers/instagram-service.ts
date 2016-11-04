@@ -13,7 +13,7 @@ export class InstagramService {
 
   public data: any;
 	private instaAccessToken: any = '31204544.010c112.4f7224ba859c481d960faf4c8a2303d5';
-  private instaRadius: any = 5000;
+  public instaRadius: any = 5;
 
   constructor(public http: Http) {
     console.log('InstagramService provider started');
@@ -31,7 +31,7 @@ export class InstagramService {
 		let instaUrl = "https://api.instagram.com/v1";
 
     //&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5"
-    instaUrl += insta + "&distance=" + this.instaRadius + "&access_token=" + this.instaAccessToken;
+    instaUrl += insta + "&distance=" + this.instaRadius*1000 + "&access_token=" + this.instaAccessToken;
 
 	  // don't have the data yet
 	  return new Promise(resolve => {
