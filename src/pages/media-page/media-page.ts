@@ -4,6 +4,7 @@ import { InstagramService } from '../../providers/instagram-service';
 import { FlickrService } from '../../providers/flickr-service';
 import { ShareService } from '../../providers/share-service';
 import { AddToCollectionPage } from './add-to-collection-page/add-to-collection-page';
+import { ShowPic } from './show-pic/show-pic';
 
 import { MediaItem } from '../../models/media-item';
 /*
@@ -65,6 +66,13 @@ export class MediaPage {
     modal.present();
   }
   
+  presentMediaModal(pic) {
+  	let modal = this.modalCtrl.create(ShowPic, {"pic": pic});
+		modal.onDidDismiss(() => {
+    });    
+    modal.present();
+  }
+  
 	toggleSelection(){
 		this.selection = !this.selection;
 		
@@ -110,7 +118,9 @@ export class MediaPage {
 		        	let mediaItem = new MediaItem();
 		        	mediaItem.title= photo.title;
 		        	mediaItem.url_small= photo.url_q;
+		        	mediaItem.url_big = photo.url_o;
 		        	mediaItem.selected= false;
+		        	mediaItem.photo_id= photo.id;
 		        	this.flickrMediaItems.push(mediaItem);
 		        }	            
             

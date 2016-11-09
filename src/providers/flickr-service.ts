@@ -45,5 +45,25 @@ export class FlickrService {
 	      });
 	  });
 	}
+	
+	getSizes(picId){
+		// https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=0c4522b87604077fb92c17f638de688b&photo_id=29921190005&format=json&nojsoncallback=1
+		let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&photo_id=";
+
+    //&distance=5000&access_token=31204544.010c112.4f7224ba859c481d960faf4c8a2303d5"
+    flickrUrl += picId + "&format=json&nojsoncallback=1&api_key=" + this.flickrApiKey;
+
+	  // don't have the data yet
+	  return new Promise(resolve => {
+	    // We're using Angular HTTP provider to request the data
+	    console.log("calling: " + flickrUrl);
+	    this.http.get(flickrUrl)
+	      .map(res => res.json())
+	      .subscribe(data => {
+	        // we've got back the raw data
+	        resolve(data);
+	      });
+	  });		
+	}
 
 }
