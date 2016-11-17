@@ -14,3 +14,6 @@ http://en.gg/using-ngcordova-and-cordovaoauth-to-query-twitters-search-api/
 
 loading controller
 http://ionicframework.com/docs/v2/api/components/loading/LoadingController/
+
+For Service Worker hosting:
+https://pages.github.com/

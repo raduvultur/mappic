@@ -129,6 +129,10 @@ export class Explore {
       myMap.setCenter(this.getPlace().geometry.location);
     });
     
+    myMap.addListener('click', function(evt) {
+      myMap.setCenter(evt.latLng);
+    });    
+    
   }
 
 

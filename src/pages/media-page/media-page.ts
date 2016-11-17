@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { LoadingController, NavController, ModalController } from 'ionic-angular';
 import { InstagramService } from '../../providers/instagram-service';
 import { FlickrService } from '../../providers/flickr-service';
 import { ShareService } from '../../providers/share-service';
@@ -27,9 +27,11 @@ export class MediaPage {
   lon: any;
   howManySelected: number = 0;
   flickrMediaItems: Array<MediaItem> = new Array<MediaItem>();
-	
+  loading : any;
+  
   constructor(public navCtrl: NavController,
   		public modalCtrl: ModalController,
+  		public loadingCtrl: LoadingController,
       private instagramService: InstagramService,
       private flickrService: FlickrService,
       private shareService: ShareService) {}
@@ -61,7 +63,7 @@ export class MediaPage {
   	
     let modal = this.modalCtrl.create(AddToCollectionPage, {"selectedItems": selectedItems});
 		modal.onDidDismiss(() => {
-      this.toggleSelection();
+      this.toggleSelection(null);
     });    
     modal.present();
   }
@@ -73,7 +75,7 @@ export class MediaPage {
     modal.present();
   }
   
-	toggleSelection(){
+	toggleSelection(pic){
 		this.selection = !this.selection;
 		
 		if (!this.selection){
@@ -82,6 +84,10 @@ export class MediaPage {
 			for(let selectedPhoto of this.flickrMediaItems) {
 				selectedPhoto.selected = false;
 	  	}
+		} else {
+		  //select the pressed photo
+		  pic.selected = true;
+		  this.howManySelected++;
 		}
 		
 	}
@@ -97,6 +103,12 @@ export class MediaPage {
 
 	showPics() {
     console.log('showPics called');
+    
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...',
+      spinner: 'crescent'
+    });
+    this.loading.present();
     
     // http://blog.ionic.io/handling-cors-issues-in-ionic/
     let apiInstagramRequest = "/media/search?lat=" + this.lat + "&lng=" + this.lon;
@@ -123,6 +135,8 @@ export class MediaPage {
 		        	mediaItem.photo_id= photo.id;
 		        	this.flickrMediaItems.push(mediaItem);
 		        }	            
+            
+            this.loading.dismiss();
             
         }, (err) => {
             console.log(err);

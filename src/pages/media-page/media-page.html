@@ -37,7 +37,7 @@
       <ion-grid>
         <ion-row wrap>
           <ion-col *ngFor="let pic of flickrMediaItems; let i = index">
-            <ion-avatar item-left (press)="toggleSelection()" (click)="presentMediaModal(pic)">
+            <ion-avatar item-left (press)="toggleSelection(pic)" (click)="presentMediaModal(pic)">
               <ion-img src="{{pic.url_small}}"></ion-img>
               <ion-checkbox class="selectBox" [(ngModel)]="pic.selected" [hidden]="!selection" (ionChange)="clickCheck(pic.selected)"></ion-checkbox>
             </ion-avatar>

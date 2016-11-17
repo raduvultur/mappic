@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import { LoadingController, NavParams, ViewController } from 'ionic-angular';
 import { FlickrService } from '../../../providers/flickr-service';
 
 import { MediaItem } from '../../../models/media-item';
@@ -20,9 +20,11 @@ export class ShowPic {
 
   pic: MediaItem;
   picUrl : string;
+  loading : any;
   
   constructor(public params: NavParams, 
               private flickrService: FlickrService,
+              public loadingCtrl: LoadingController,
               public viewCtrl: ViewController) {
     //console.log(this.params.get("pic"));
     this.pic = this.params.get("pic"); 
@@ -39,6 +41,11 @@ export class ShowPic {
 
   findPhotoUrl(){
     
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...',
+      spinner: 'crescent'
+    });
+    this.loading.present();
     
     this.flickrService.getSizes(this.pic.photo_id)
     .then(data => {
@@ -46,8 +53,10 @@ export class ShowPic {
         console.log(data);
         //response = data;
         let resp: any = data;
-        this.picUrl = resp.sizes.size[resp.sizes.size.length-1].source;
+        //this.picUrl = resp.sizes.size[resp.sizes.size.length-1].source;
+        this.picUrl = resp.sizes.size[7].source;
         console.log(this.picUrl);
+        this.loading.dismiss();
     }, (err) => {
         console.log(err);
     });
