@@ -84,6 +84,7 @@ export class MediaPage {
 			for(let selectedPhoto of this.flickrMediaItems) {
 				selectedPhoto.selected = false;
 	  	}
+	  	this.howManySelected=0;
 		} else {
 		  //select the pressed photo
 		  pic.selected = true;
@@ -96,7 +97,8 @@ export class MediaPage {
 		if (sel){
 			this.howManySelected++;
 		} else {
-			this.howManySelected--;
+		  if (this.howManySelected>0)
+			  this.howManySelected--;
 		}
 		console.log(this.howManySelected);
 	}

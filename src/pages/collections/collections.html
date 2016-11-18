@@ -9,8 +9,8 @@
   <ion-navbar>
     <ion-title>Collections</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
-        <ion-icon name="sum"></ion-icon>
+      <button ion-button icon-only (click)="showPrompt()">
+        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>    
   </ion-navbar>
@@ -19,31 +19,6 @@
 
 
 <ion-content class="card-background-page">
-<!--
-  <ion-card>
-    <img src="img/card-saopaolo.png"/>
-    <div class="card-title">São Paulo</div>
-    <div class="card-subtitle">41 Images</div>
-  </ion-card>
-
-  <ion-card>
-    <img src="img/card-amsterdam.png"/>
-    <div class="card-title">Amsterdam</div>
-    <div class="card-subtitle">64 Images</div>
-  </ion-card>
-
-  <ion-card>
-    <img src="img/card-sf.png"/>
-    <div class="card-title">San Francisco</div>
-    <div class="card-subtitle">72 Images</div>
-  </ion-card>
-
-  <ion-card>
-    <img src="img/card-madison.png"/>
-    <div class="card-title">Madison</div>
-    <div class="card-subtitle">28 Images</div>
-  </ion-card>
--->
 
   <ion-card *ngFor="let collection of collections" (click)="showDetail(collection)" (swipe)="removeCollection(collection)">
     <img src="img/card-amsterdam.png"/>

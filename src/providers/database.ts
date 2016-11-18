@@ -7,11 +7,14 @@ import PouchDB from "pouchdb";
 @Injectable()
 export class Database {  
     private _db;
+    private _dbPhotos;
     private _collections;
+    private _collectionMedia;
 
     initDB() {
         console.log('init DB');
         this._db = new PouchDB('collections', { adapter: 'websql' });
+        this._dbPhotos = new PouchDB('media', { adapter: 'websql' });
         window["PouchDB"] = PouchDB;
     }
     
@@ -70,6 +73,45 @@ export class Database {
             }
         }
     }
+    
+    addToCollection(collection, mediaItems) {  
+        for (let mediaItem of mediaItems){
+            var colItem = {
+                title: mediaItem.title,
+                url_big: mediaItem.url_big,
+                url_small: mediaItem.url_small,
+                col_id: collection._id
+            };
+            this._dbPhotos.post(colItem);
+        }
+        return true;
+    }
+    
+    deleteFromCollection(colItem) {  
+        return this._dbPhotos.remove(colItem);
+    }
+    
+    getCollectionItems() {  
+    
+        if (!this._collectionMedia) {
+            return this._dbPhotos.allDocs({ include_docs: true})
+                .then(docs => {
+                    this._collectionMedia = docs.rows.map(row => {
+                        return row.doc;
+                    });
+/*    
+                    // Listen for changes on the database.
+                    this._dbPhotos.changes({ live: true, since: 'now', include_docs: true})
+                        .on('change', this.onDatabaseChange);
+*/
+                    return this._collectionMedia;
+                });
+        } else {
+            // Return cached data as a promise
+            return Promise.resolve(this._collectionMedia);
+        }
+
+    }    
     
     // Binary search, the array is by default sorted by _id.
     private findIndex(array, id) {  

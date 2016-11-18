@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavParams, NavController, ViewController } from 'ionic-angular';
 import { Database } from '../../../providers/database';
-
+import { MediaItem } from '../../../models/media-item';
 /*
   Generated class for the CollectionDetails page.
 
@@ -15,14 +15,31 @@ import { Database } from '../../../providers/database';
 export class CollectionDetails {
 
   public collection: any;
+  collectionMediaItems: Array<MediaItem> = new Array<MediaItem>();
 
-  constructor(public params: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, private database: Database) {
-    
-  }
+  constructor(public params: NavParams, 
+              public navCtrl: NavController, 
+              private zone: NgZone,
+              public viewCtrl: ViewController, 
+              private database: Database) {}
 
   ionViewDidLoad() {
     console.log('Hello CollectionDetails Page');
     this.collection = this.params.get("collection");
+  }
+  
+  ionViewWillEnter() {
+    
+    this.database.getCollectionItems()
+      .then(data => {
+          this.zone.run(() => {
+              console.log(data);
+              console.log("-----------------");
+              this.collectionMediaItems = data;
+              console.log(this.collectionMediaItems);
+          });
+      })
+      .catch(console.error.bind(console));
   }
   
   dismiss() {
@@ -30,6 +47,9 @@ export class CollectionDetails {
   }
 
   delete() {
+    
+    //TODO: delete media in collection, THEN delete collection!
+    
     this.database.delete(this.collection);
     this.viewCtrl.dismiss();
   }

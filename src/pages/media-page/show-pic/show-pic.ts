@@ -40,13 +40,6 @@ export class ShowPic {
   */
 
   findPhotoUrl(){
-    
-    /*this.loading = this.loadingCtrl.create({
-      content: 'Loading...',
-      spinner: 'crescent'
-    });
-    this.loading.present();*/
-    
     this.flickrService.getSizes(this.pic.photo_id)
     .then(data => {
         console.log('after getSize');
@@ -56,7 +49,6 @@ export class ShowPic {
         //this.picUrl = resp.sizes.size[resp.sizes.size.length-1].source;
         this.picUrl = resp.sizes.size[7].source;
         console.log(this.picUrl);
-        //this.loading.dismiss();
     }, (err) => {
         console.log(err);
     });

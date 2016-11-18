@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
-import { NavParams, ViewController, AlertController  } from 'ionic-angular';
+import { NavParams, ViewController, AlertController } from 'ionic-angular';
 import { Database } from '../../../providers/database';
+import { MediaItem } from '../../../models/media-item';
 /*
   Generated class for the AddToCollectionPage page.
 
@@ -15,6 +16,7 @@ import { Database } from '../../../providers/database';
 export class AddToCollectionPage {
 
   public collections = [];
+  public selectedItems: Array<MediaItem> = new Array<MediaItem>();
 
   constructor(public params: NavParams, 
   public viewCtrl: ViewController,
@@ -22,6 +24,7 @@ export class AddToCollectionPage {
   private zone: NgZone,
   public alertCtrl: AlertController) {
     console.log(this.params.get("selectedItems"));
+    this.selectedItems = this.params.get("selectedItems");
   }
 
   ionViewDidLoad() {
@@ -75,6 +78,7 @@ export class AddToCollectionPage {
   
   collectionSelected(collection){
     console.log(collection);
+    this.database.addToCollection(collection, this.selectedItems);
     this.dismiss();
   }
   

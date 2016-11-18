@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, Platform, ModalController } from 'ionic-angular';
+import { NavController, Platform, ModalController, AlertController } from 'ionic-angular';
 
 import { Database } from '../../providers/database';
 import { CollectionDetails } from './collection-details/collection-details';
@@ -22,7 +22,8 @@ export class Collections {
       private platform: Platform,
       private zone: NgZone,
       public modalCtrl: ModalController,
-      private database: Database) {}
+      private database: Database,
+      public alertCtrl: AlertController) {}
 
   ionViewWillEnter() {
     console.log('Hello Collections Page');
@@ -39,7 +40,7 @@ export class Collections {
 
     ionViewDidLoad() {
         //this.platform.ready().then(() => {
-            this.database.initDB();
+            //this.database.initDB();
         //});
     }
     
@@ -56,4 +57,33 @@ export class Collections {
       this.collections.splice(index, 1);
     }
 
+  showPrompt() {
+    let prompt = this.alertCtrl.create({
+      title: 'New collection',
+      //message: "Enter the new collection title",
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'Title'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            this.database.add(data);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }  
+  
 }
