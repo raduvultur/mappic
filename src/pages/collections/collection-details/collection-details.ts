@@ -43,10 +43,12 @@ export class CollectionDetails {
   }
 
   delete() {
-    
     //TODO: delete media in collection, THEN delete collection!
-    
+    for (let collectionMediaItem of this.collectionMediaItems){
+      this.database.deleteFromCollection(collectionMediaItem);
+    }
     this.database.delete(this.collection);
+    
     this.viewCtrl.dismiss();
   }
 
