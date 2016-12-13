@@ -13,8 +13,8 @@ export class Database {
 
     initDB() {
         console.log('init DB');
-        this._db = new PouchDB('collections', { adapter: 'websql' });
-        this._dbPhotos = new PouchDB('media', { adapter: 'websql' });
+        this._db = new PouchDB('collections', { adapter: 'websql', auto_compaction: true });
+        this._dbPhotos = new PouchDB('media', { adapter: 'websql', auto_compaction: true });
         window["PouchDB"] = PouchDB;
     }
     
@@ -26,7 +26,11 @@ export class Database {
         return this._db.put(collection);
     }
     
-    delete(collection) {  
+    delete(collection) { 
+        var colItems = this.getCollectionItems(collection);
+        for (let colItem of colItems){
+            this.deleteFromCollection(colItem);
+        }
         return this._db.remove(collection);
     }
     
@@ -46,7 +50,7 @@ export class Database {
     
                     // Listen for changes on the database.
                     this._db.changes({ live: true, since: 'now', include_docs: true})
-                        .on('change', this.onDatabaseChange);
+                        .on('change', this.onCollectionsChange);
     
                     return this._collections;
                 });
@@ -56,7 +60,7 @@ export class Database {
         }
     }
 
-    private onDatabaseChange = (change) => {  
+    private onCollectionsChange = (change) => {  
         var index = this.findIndex(this._collections, change.id);
         var collection = this._collections[index];
         console.log('change detected');
@@ -74,7 +78,7 @@ export class Database {
         }
     }
     
-    addToCollection(collection, mediaItems) {  
+    addToCollection(collection, mediaItems) {
         for (let mediaItem of mediaItems){
             var colItem = {
                 title: mediaItem.title,
@@ -91,26 +95,38 @@ export class Database {
         return this._dbPhotos.remove(colItem);
     }
     
-    getCollectionItems() {  
-    
-        if (!this._collectionMedia) {
-            return this._dbPhotos.allDocs({ include_docs: true})
-                .then(docs => {
-                    this._collectionMedia = docs.rows.map(row => {
+    getCollectionItems(collection) {  
+        return this._dbPhotos.allDocs({ include_docs: true})
+            .then(docs => {
+                this._collectionMedia = docs.rows.map(row => {
+                    if (row.doc.col_id == collection._id)
                         return row.doc;
-                    });
-/*    
-                    // Listen for changes on the database.
-                    this._dbPhotos.changes({ live: true, since: 'now', include_docs: true})
-                        .on('change', this.onDatabaseChange);
-*/
-                    return this._collectionMedia;
                 });
-        } else {
-            // Return cached data as a promise
-            return Promise.resolve(this._collectionMedia);
-        }
 
+                // Listen for changes on the database.
+                this._dbPhotos.changes({ live: true, since: 'now', include_docs: true})
+                    .on('change', this.onCollectionMediasChange);
+
+                return this._collectionMedia;
+            });
+    }    
+    
+    private onCollectionMediasChange = (change) => {  
+        var index = this.findIndex(this._collectionMedia, change.id);
+        var collectionMedia = this._collectionMedia[index];
+        console.log('change detected');
+        if (change.deleted) {
+            console.log('delete detected');
+            if (collectionMedia) {
+                this._collectionMedia.splice(index, 1); // delete
+            }
+        } else {
+            if (collectionMedia && collectionMedia._id === change.id) {
+                this._collectionMedia[index] = change.doc; // update
+            } else {
+                this._collectionMedia.splice(index, 0, change.doc) // insert
+            }
+        }
     }    
     
     // Binary search, the array is by default sorted by _id.

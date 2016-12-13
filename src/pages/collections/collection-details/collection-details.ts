@@ -29,14 +29,10 @@ export class CollectionDetails {
   }
   
   ionViewWillEnter() {
-    
-    this.database.getCollectionItems()
+    this.database.getCollectionItems(this.collection)
       .then(data => {
           this.zone.run(() => {
-              console.log(data);
-              console.log("-----------------");
-              this.collectionMediaItems = data;
-              console.log(this.collectionMediaItems);
+              this.collectionMediaItems = data.filter(function(n){ return n != undefined });
           });
       })
       .catch(console.error.bind(console));
