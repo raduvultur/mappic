@@ -24,14 +24,32 @@
     <ion-img src="{{picUrl}}"></ion-img>
     <ion-spinner></ion-spinner>
     <ion-card-content>
-      <ion-card-title>
-        {{pic.title}}
-      </ion-card-title>
+      <ion-note>
+        Taken on 12/12/2016
+      </ion-note>
       <p>
-        The most popular industrial group ever, and largely
-        responsible for bringing the music to a mass audience.
+        [show position on the map]
       </p>
     </ion-card-content>
+    
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small *ngIf="parent !== 'collection-details'">
+          <ion-icon name="heart"></ion-icon>
+          <div>Add to collection</div>
+        </button>
+        <button ion-button icon-left clear small *ngIf="parent == 'collection-details'">
+          <ion-icon name="trash"></ion-icon>
+          <div>Remove from collection</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="share"></ion-icon>
+          <div>Share</div>
+        </button>
+      </ion-col>
+    </ion-row>   
   </ion-card>
 
 </ion-content>

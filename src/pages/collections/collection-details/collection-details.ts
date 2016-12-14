@@ -1,7 +1,9 @@
 import { Component, NgZone } from '@angular/core';
-import { NavParams, NavController, ViewController } from 'ionic-angular';
+import { NavParams, NavController, ViewController, ModalController } from 'ionic-angular';
 import { Database } from '../../../providers/database';
 import { MediaItem } from '../../../models/media-item';
+import { ShowPic } from '../../media-page/show-pic/show-pic';
+
 /*
   Generated class for the CollectionDetails page.
 
@@ -21,6 +23,7 @@ export class CollectionDetails {
               public navCtrl: NavController, 
               private zone: NgZone,
               public viewCtrl: ViewController, 
+              public modalCtrl: ModalController,
               private database: Database) {}
 
   ionViewDidLoad() {
@@ -51,5 +54,11 @@ export class CollectionDetails {
     
     this.viewCtrl.dismiss();
   }
+  
+  presentMediaModal(pic) {
+  	let modal = this.modalCtrl.create(ShowPic, {"pic": pic, "parent": "collection-details"});
+		modal.onDidDismiss(() => {});    
+    modal.present();
+  }  
 
 }

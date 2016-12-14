@@ -5,6 +5,7 @@ import { FlickrService } from '../../providers/flickr-service';
 import { ShareService } from '../../providers/share-service';
 import { AddToCollectionPage } from './add-to-collection-page/add-to-collection-page';
 import { ShowPic } from './show-pic/show-pic';
+import { PhotoViewer } from 'ionic-native';
 
 import { MediaItem } from '../../models/media-item';
 /*
@@ -69,10 +70,25 @@ export class MediaPage {
   }
   
   presentMediaModal(pic) {
-  	let modal = this.modalCtrl.create(ShowPic, {"pic": pic});
-		modal.onDidDismiss(() => {
+    /*
+    this.flickrService.getSizes(pic.photo_id)
+    .then(data => {
+        console.log('after getSize');
+        console.log(data);
+        //response = data;
+        let resp: any = data;
+        var picUrl = resp.sizes.size[7].source;
+        console.log(picUrl);
+        PhotoViewer.show(picUrl, pic.title, {share: true});
+    }, (err) => {
+        console.log(err);
     });    
+    */
+    
+  	let modal = this.modalCtrl.create(ShowPic, {"pic": pic, "parent": "media-page"});
+		modal.onDidDismiss(() => {});    
     modal.present();
+    
   }
   
 	toggleSelection(pic){

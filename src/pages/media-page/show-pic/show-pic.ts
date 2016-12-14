@@ -21,13 +21,14 @@ export class ShowPic {
   pic: MediaItem;
   picUrl : string;
   loading : any;
+  parent : any;
   
   constructor(public params: NavParams, 
               private flickrService: FlickrService,
               public loadingCtrl: LoadingController,
               public viewCtrl: ViewController) {
-    //console.log(this.params.get("pic"));
-    this.pic = this.params.get("pic"); 
+    this.pic = this.params.get("pic");
+    this.parent = this.params.get("parent"); 
     this.findPhotoUrl();
   }
   

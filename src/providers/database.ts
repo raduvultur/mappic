@@ -84,6 +84,7 @@ export class Database {
                 title: mediaItem.title,
                 url_big: mediaItem.url_big,
                 url_small: mediaItem.url_small,
+                photo_id: mediaItem.photo_id,
                 col_id: collection._id
             };
             this._dbPhotos.post(colItem);
