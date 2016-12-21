@@ -96,6 +96,23 @@ export class Database {
         return this._dbPhotos.remove(colItem);
     }
     
+    countCollectionItems(collection){
+        var myId = collection._id;
+        var count = 0;
+        /*
+        this._dbPhotos.query(function(doc, emit) {
+          if (doc.col_id === myId) {
+            emit(doc);
+          }
+        }, function(err, results) {
+          if (err) { return console.log(err); }
+          // handle result
+          debugger;
+          count = results.length;
+        });*/
+        return count;
+    }
+    
     getCollectionItems(collection) {  
         return this._dbPhotos.allDocs({ include_docs: true})
             .then(docs => {
@@ -140,5 +157,10 @@ export class Database {
         return low;
     }
 
+
+    dropDB(){
+        this._dbPhotos.destroy().then(function() { this._collectionMedia=[]; console.log('ALL YOUR BASE ARE BELONG TO US') });
+        this._db.destroy().then(function() { this._collections=[]; console.log('HASTA LA VISTA') });
+    }
 
 }

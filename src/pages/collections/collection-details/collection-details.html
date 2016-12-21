@@ -36,13 +36,15 @@
 <ion-footer no-shadow>
   <ion-toolbar>
     <ion-buttons left>
-      <button ion-button icon-only>
+      <button ion-button icon-left clear small>
         <ion-icon name="share"></ion-icon>
+        <div>Share</div>
       </button>       
     </ion-buttons>
     <ion-buttons right>
-      <button ion-button icon-only (click)="delete()">
+      <button ion-button icon-left clear small (click)="delete()">
         <ion-icon name="trash"></ion-icon>
+        <div>Delete collection</div>
       </button>
     </ion-buttons>
   </ion-toolbar>

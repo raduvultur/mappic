@@ -9,8 +9,9 @@
   <ion-navbar>
     <ion-title>Collections</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="showPrompt()">
+      <button ion-button icon-left clear small (click)="showPrompt()">
         <ion-icon name="add"></ion-icon>
+        <div>New collection</div>
       </button>
     </ion-buttons>    
   </ion-navbar>
@@ -23,7 +24,6 @@
   <ion-card *ngFor="let collection of collections" (click)="showDetail(collection)" (swipe)="removeCollection(collection)">
     <img src="img/card-amsterdam.png"/>
     <div class="card-title">{{ collection.title }}</div>
-    <div class="card-subtitle">0 images</div>
   </ion-card>
 
 </ion-content>

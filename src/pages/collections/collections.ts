@@ -38,12 +38,6 @@ export class Collections {
     
   }
 
-    ionViewDidLoad() {
-        //this.platform.ready().then(() => {
-            //this.database.initDB();
-        //});
-    }
-    
     showDetail(collection) {
       let modal = this.modalCtrl.create(CollectionDetails, {"collection": collection});
   		modal.onDidDismiss(() => {
@@ -52,6 +46,7 @@ export class Collections {
     }
 
     removeCollection(collection){
+      console.log(collection);
       this.database.delete(collection);
       var index = this.collections.indexOf(collection);
       this.collections.splice(index, 1);

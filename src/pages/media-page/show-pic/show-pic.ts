@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { LoadingController, NavParams, ViewController } from 'ionic-angular';
 import { FlickrService } from '../../../providers/flickr-service';
+import { Database }      from '../../../providers/database';
 
-import { MediaItem } from '../../../models/media-item';
+import { MediaItem }     from '../../../models/media-item';
 /*
   Generated class for the ShowPic page.
 
@@ -26,7 +27,8 @@ export class ShowPic {
   constructor(public params: NavParams, 
               private flickrService: FlickrService,
               public loadingCtrl: LoadingController,
-              public viewCtrl: ViewController) {
+              public viewCtrl: ViewController,
+              private database: Database) {
     this.pic = this.params.get("pic");
     this.parent = this.params.get("parent"); 
     this.findPhotoUrl();
@@ -54,9 +56,21 @@ export class ShowPic {
         console.log(err);
     });
   }
+  
+  
 
   dismiss() {
     this.viewCtrl.dismiss();
   }
   
+  removeFromCollection(){
+    console.log(this.pic);
+    this.database.deleteFromCollection(this.pic);
+    this.dismiss();
+  }
+  
+  addToCollection(){
+    console.log(this.pic);
+    //should select collection, if only one add directly to it!
+  }
 }

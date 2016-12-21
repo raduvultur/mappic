@@ -7,21 +7,14 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>mappic - Media</ion-title>
+    <ion-title>Media</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [hidden]="!(howManySelected>0)">
-        <ion-icon name="share-alt"></ion-icon>
-      </button>      
       <button ion-button icon-only [hidden]="!(howManySelected>0)" (click)="presentModal()">
         <ion-icon name="heart"></ion-icon>
       </button>
-      <button ion-button icon-only [hidden]="!(howManySelected>0)">
+      <button ion-button icon-only [hidden]="!(howManySelected>0)" (click)="toggleSelection()">
         <ion-icon name="close"></ion-icon>
       </button>      
-      <!--
-      <button ion-button icon-only (click)="toggleSelection()" [hidden]="selection">
-        <ion-icon name="checkmark-circle"></ion-icon>
-      </button>-->
     </ion-buttons>
   </ion-navbar>
 
